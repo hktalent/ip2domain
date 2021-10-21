@@ -46,8 +46,11 @@ rm -rf ip2d.txt
 scp -i ~/.ssh/id_rsa -r -P $myVpsPort root@51pwn.com:/root/ip2d.txt ./
 sort -u ip2d.txt|uniq >ip2domain.txt
 rm -rf ip2d.txt
+mysqlimport -u sgdb_51pwn -psgdb_51pwn --local sgdb_51pwn  `pwd`/ip2domain.txt
+rm -rf ip2domain.txt
 
-# mysqlimport -u sgdb_51pwn -psgdb_51pwn --local sgdb_51pwn  `pwd`/ip2domain.txt
+#  or
+
 mysql -u sgdb_51pwn -psgdb_51pwn
 use sgdb_51pwn;
 SET GLOBAL local_infile=1;
