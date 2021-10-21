@@ -16,13 +16,6 @@ pip3 install mysql-connector-python scapy pysnooper
 
 ln -s `which python3`  /usr/local/bin/py3
 ```
-## centos
-```bash
-yum install mysql tmux
-service mysqld restart
-
-
-```
 
 ## How init mysql
 ```sql
@@ -40,10 +33,24 @@ CREATE TABLE `ip2domain` (
 
 ```
 
-
 # How run
 ```bash
 tmux
 sudo py3 ip2domain.py
 
+```
+## run for centos vps  
+```bash
+python3 ip2domain2.py
+rm -rf ip2d.txt
+scp -i ~/.ssh/id_rsa -r -P $myVpsPort root@51pwn.com:/root/ip2d.txt ./
+sort -u ip2d.txt|uniq >ip2d1.txt
+mv ip2d1.txt ip2domain.txt
+
+# mysqlimport -u sgdb_51pwn -psgdb_51pwn --local sgdb_51pwn  `pwd`/ip2domain.txt
+mysql -u sgdb_51pwn -psgdb_51pwn
+use sgdb_51pwn;
+SET GLOBAL local_infile=1;
+LOAD DATA LOCAL INFILE '/ip2domain/ip2domain.txt' INTO TABLE ip2domain FIELDS TERMINATED BY ' ' LINES TERMINATED BY '\n';
+exit
 ```
