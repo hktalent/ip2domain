@@ -44,8 +44,8 @@ sudo py3 ip2domain.py
 python3 ip2domain2.py
 rm -rf ip2d.txt
 scp -i ~/.ssh/id_rsa -r -P $myVpsPort root@51pwn.com:/root/ip2d.txt ./
-sort -u ip2d.txt|uniq >ip2d1.txt
-mv ip2d1.txt ip2domain.txt
+sort -u ip2d.txt|uniq >ip2domain.txt
+rm -rf ip2d.txt
 
 # mysqlimport -u sgdb_51pwn -psgdb_51pwn --local sgdb_51pwn  `pwd`/ip2domain.txt
 mysql -u sgdb_51pwn -psgdb_51pwn
@@ -53,4 +53,5 @@ use sgdb_51pwn;
 SET GLOBAL local_infile=1;
 LOAD DATA LOCAL INFILE '/ip2domain/ip2domain.txt' INTO TABLE ip2domain FIELDS TERMINATED BY ' ' LINES TERMINATED BY '\n';
 exit
+rm -rf ip2domain.txt
 ```
