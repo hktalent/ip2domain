@@ -43,6 +43,7 @@ if __name__=='__main__':
     dbC=_51pwn_ip2domain()
     parser = argparse.ArgumentParser()
     parser.add_argument("-i","--ips",help="ip1,ip2")
+    parser.add_argument("-x","--xone",help="only display domain",action="store_true")
     args = parser.parse_args()
     if args.ips:
         a=args.ips.split(",")
@@ -50,4 +51,7 @@ if __name__=='__main__':
             aRst = dbC.queryip((k,k))
             if 0 < len(aRst):
                 for x in aRst:
-                    print(x[0] + " " + x[1])
+                    if args.xone:
+                        print(x[1])
+                    else:
+                        print(x[0] + " " + x[1])

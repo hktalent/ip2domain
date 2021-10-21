@@ -7,7 +7,8 @@ fnGetPidArgCmd () {
   while read -r foo;
   do
     xx1=$(ps -p `echo ${foo}|awk '{print $1}'|grep -Eo '([0-9]+)'` -o args|tail -n 1);
-    echo  "${foo} ${xx1}";
+    xx2=$(py3 ip2d4query.py -x -i `echo ${foo}|awk '{print $2}'`|tail -n 1);
+    echo  "${foo} ${xx2} ${xx1}";
   done
 }
 

@@ -63,3 +63,10 @@ rm -rf ip2domain.txt
 ```bash
 py3 ip2d4query.py -i 52.35.195.250,17.57.145.167
 ```
+## Know the domian corresponding to the local network connection IP
+```bash
+./getCurNetConn.sh f|awk '{print $2}'|xargs -I % py3 ip2d4query.py -i %
+# Now you can see: 
+# pid ip domain cmd & args
+./getCurNetConn.sh f
+```
