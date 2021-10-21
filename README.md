@@ -1,4 +1,5 @@
 # What is
+Sometimes, we need to know what connections our local machine has, and what are their IP, domain name, program and parameters?
 - get ip to domain
 - Know the domian corresponding to the local network connection IP
 ## How get Local network connection
