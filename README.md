@@ -4,7 +4,7 @@ Sometimes, we need to know what connections our local machine has, and what are 
 - Know the domian corresponding to the local network connection IP
 ## How get Local network connection
 ```
-# pid ip cmdAndArgs
+# pid ip domain cmdAndArgs
 ./getCurNetConn.sh f
 ```
 
