@@ -16,6 +16,14 @@ pip3 install mysql-connector-python scapy pysnooper
 
 ln -s `which python3`  /usr/local/bin/py3
 ```
+## centos
+```bash
+yum install mysql tmux
+service mysqld restart
+
+
+```
+
 ## How init mysql
 ```sql
 create database sgdb_51pwn default charset 'utf8';
