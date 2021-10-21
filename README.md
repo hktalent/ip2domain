@@ -55,3 +55,8 @@ LOAD DATA LOCAL INFILE '/ip2domain/ip2domain.txt' INTO TABLE ip2domain FIELDS TE
 exit
 rm -rf ip2domain.txt
 ```
+
+# How query ips
+```bash
+py3 ip2d4query.py -i 52.35.195.250,17.57.145.167
+```
