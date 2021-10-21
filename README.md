@@ -7,6 +7,7 @@ Sometimes, we need to know what connections our local machine has, and what are 
 # pid ip domain cmdAndArgs
 ./getCurNetConn.sh f
 ```
+<img width="726" alt="image" src="https://user-images.githubusercontent.com/18223385/138234250-3ee416cd-d890-4f99-87a4-c4cc85aae8c5.png">
 
 # How install for macos
 ```bash
