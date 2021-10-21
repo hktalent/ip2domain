@@ -77,7 +77,7 @@ def select_DNS(pkt):
                 ip = pkt[DNS].an[ix].rdata
                 if not isinstance(ip,bytes):
                     nLsId = dbC.insert((ip,s))
-                    if 0 == int(nLsId):
+                    if 0 == nLsId:
                         print(s+ "(" + ip + ")")
     except Exception as e:
         print(e)
