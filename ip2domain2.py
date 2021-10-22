@@ -30,8 +30,8 @@ def select_DNS(pkt):
            if pkt[DNS].an:
              for ix in range(pkt[DNS].ancount):
                 ip = pkt[DNS].an[ix].rdata
-                if not isinstance(ip,bytes):
-                    s1=ip + " " + s+"\n"
+                if not(isinstance(ip,bytes) or ip in ['0.0.0.0','::']):
+                    s1=ip + "\t" + s+"\n"
                     f1.write(s1.encode('utf8'))
     except Exception as e:
         print(e)
