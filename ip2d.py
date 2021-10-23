@@ -3,7 +3,7 @@
 
 from scapy.all import *
 from datetime import datetime
-import time,datetime,sys,os
+import time,datetime,sys,os,pysnooper
 
 # for centos
 
@@ -13,6 +13,7 @@ interface = 'eth0'
 # interface = 'en0'
 filter_bpf = 'udp and port 53'
 
+# @pysnooper.snoop()
 def select_DNS(pkt):
     pkt_time = pkt.sprintf('%sent.time%')
     f1=open('ip2d.txt','ab')
@@ -25,13 +26,13 @@ def select_DNS(pkt):
             pass
         elif DNSRR in pkt and pkt.sport == 53:
            s=pkt[DNS].qd.qname
-           s=s[0:len(s)-1].decode('utf8')
+           s=str(s[0:len(s)-1])
         #    print ('start ' + s)
            if pkt[DNS].an:
              for ix in range(pkt[DNS].ancount):
                 ip = pkt[DNS].an[ix].rdata
                 if not(isinstance(ip,bytes) or ip in ['0.0.0.0','::']):
-                    s1=ip + "\t" + s+"\n"
+                    s1=str(ip) + "\t" + str(s)+"\n"
                     f1.write(s1.encode('utf8'))
     except Exception as e:
         print(e)
