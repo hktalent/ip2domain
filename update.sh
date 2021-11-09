@@ -1,5 +1,5 @@
 rm -rf ip2d.txt
-scp -i ~/.ssh/id_rsa -r -P $myVpsPort root@51pwn.com:/root/ip2d.txt ./
+scp -i ~/.ssh/id_rsa -C -r -P $myVpsPort root@51pwn.com:/root/ip2d.txt ./
 sort -u ip2d.txt|uniq >ip2domain.txt
 rm -rf ip2d.txt
 echo ip2domain.txt
