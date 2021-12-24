@@ -23,7 +23,7 @@ def select_DNS(pkt):
             s=s[0:len(s)-1]
             if isinstance(s,bytes):
                 s = s.decode('utf8')
-            s1 = pkt[IP].src + "\t" + s + "\t" + str(datetime.datetime.now())
+            s1 = pkt[IP].src + "\t" + s + "\t" + str(datetime.datetime.now()) + "\n"
             f1.write(s1.encode('utf8'))
             print(s1)
         # # queries
