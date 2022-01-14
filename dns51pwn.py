@@ -15,8 +15,8 @@ requests = requestsSs.session()
 
 szCurlDir=os.path.dirname(os.path.abspath(__file__))
 
-interface = 'eth0'
-# interface = 'en0'
+# interface = 'eth0'
+interface = 'en0'
 filter_bpf = 'udp '
 g_szDomain = ["51pwn.com",'exploit-poc.com']
 
@@ -37,7 +37,10 @@ def select_DNS(pkt):
                     return
             aIp = []
             for x in range(pkt[DNS].ancount):
-                aIp.append(pkt[DNSRR][x].rdata)
+                s1 = pkt[DNSRR][x].rdata
+                if isinstance(s1,bytes):
+                    s1 = s1.decode('utf8')
+                aIp.append(s1)
             if 0 < len(aIp):
                 requests.post('https://www.51pwn.com/ip2domain', data=json.dumps({"domain":s,"ip":aIp}), verify=False, headers={"Content-Type": "application/json;charset=UTF-8","User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15"},timeout=(10,15),allow_redirects=False)
                 szIp = "".join(aIp)
