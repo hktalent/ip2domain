@@ -12,10 +12,20 @@ szCurlDir=os.path.dirname(os.path.abspath(__file__))
 interface = 'eth0'
 # interface = 'en0'
 filter_bpf = 'udp and port 53'
+g_szDomainIp = "199.180.115.7"
+g_szDomain = ["51pwn.com",'exploit-poc.com']
+
+def myAny(s):
+    for k in g_szDomain:
+        if k in s:
+            return True
+    return False
 
 # @pysnooper.snoop()
 def select_DNS(pkt):
-    pkt_time = pkt.sprintf('%sent.time%')
+
+    if DNSRR in pkt:
+        pkt.show()
     f1=open('dns51pwn.txt','ab')
     try:
         if DNSQR in pkt and pkt.dport == 53:
@@ -25,29 +35,12 @@ def select_DNS(pkt):
                 s = s.decode('utf8')
             s1 = pkt[IP].src + "\t" + s + "\t" + str(datetime.datetime.now()) + "\n"
             f1.write(s1.encode('utf8'))
-            print(s1)
-        # # queries
-        # #    pkt.show()
-        # #    print ('[**] Detected DNS QR Message at: ' + pkt_time)
-        # #    print(pkt(DNSQR).qname)
-        #     pass
-        # elif DNSRR in pkt and pkt.sport == 53:
-        #    s=pkt[DNS].qd.qname
-        #    if b'51pwn.com' in s:
-        #     s=str(s[0:len(s)-1])
-        #     if isinstance(s,bytes):
-        #         s = s.decode('utf8')
-        #     print (s)
-        #     pkt.show()
-        #     if pkt[DNS].an:
-        #         for ix in range(pkt[DNS].ancount):
-        #             ip = pkt[DNS].an[ix].rdata
-        #             if not(isinstance(ip,bytes) or ip in ['0.0.0.0','::']):
-        #                 s1=str(ip) + "\t" + str(s)+"\n"
-        #                 f1.write(s1.encode('utf8'))
+            if myAny(s):
+                print(s)
+                spf_resp = IP(dst=pkt[IP].src)/UDP(dport=pkt[UDP].sport, sport=53)/DNS(qr=1,opcode='QUERY',rd=1,ra=1,aa=0,id=pkt[DNS].id,qdcount=1,ancount=1,an=DNSRR(rrname=pkt[DNSQR].qname, rdata=g_szDomainIp)/DNSRR(rrname=pkt[DNSQR].qname,rdata=g_szDomainIp))
+                send(spf_resp, verbose=0, iface=interface)
     except Exception as e:
         print(e)
-        pass
     f1.close()
 
 sniff(iface=interface, filter=filter_bpf, store=0,  prn=select_DNS)
