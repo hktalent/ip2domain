@@ -4,7 +4,7 @@
 # DNSRR DNSQR
 from scapy.all import *
 from datetime import datetime
-import urllib3,json
+import urllib3,json,os
 import requests as requestsSs
 urllib3.disable_warnings()
 requestsSs.packages.urllib3.disable_warnings()
@@ -20,6 +20,10 @@ interface = 'en0'
 filter_bpf = 'udp '
 g_szDomain = ["51pwn.com",'exploit-poc.com']
 
+
+g_szEsHost = 'https://www.51pwn.com'
+if os.environ['DEBUG']:
+    g_szEsHost = 'http://127.0.0.1:1443'
 
 # @pysnooper.snoop()
 def select_DNS(pkt):
@@ -40,9 +44,10 @@ def select_DNS(pkt):
                 s1 = pkt[DNSRR][x].rdata
                 if isinstance(s1,bytes):
                     s1 = s1.decode('utf8')
-                aIp.append(s1)
-            if 0 < len(aIp):
-                requests.post('https://www.51pwn.com/ip2domain', data=json.dumps({"domain":s,"ip":aIp}), verify=False, headers={"Content-Type": "application/json;charset=UTF-8","User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15"},timeout=(10,15),allow_redirects=False)
+                if re.findall(r'([\d]{1,3}\.){3}([\d]{1,3})',s1,re.DOTALL):
+                    aIp.append(s1)
+            if 0 < len(aIp) and not re.findall(r'([\d]{1,3}\.){3}([\d]{1,3})',s,re.DOTALL) and '127.0.0.1' not in aIp:
+                requests.post(g_szEsHost+'/ip2domain', data=json.dumps({"domain":s,"ip":aIp}), verify=False, headers={"Content-Type": "application/json;charset=UTF-8","User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15"},timeout=(10,15),allow_redirects=False)
                 szIp = "".join(aIp)
                 print('send ok: ' + s + " " + szIp)
     except Exception as e:
