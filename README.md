@@ -73,3 +73,13 @@ py3 ip2d4query.py -i 52.35.195.250,17.57.145.167
 # pid ip domain cmd & args
 ./getCurNetConn.sh f
 ```
+
+# other
+```
+cat ~/MyWork/ip2region/data/ip.merge.txt|grep 泰国|sed -E 's/\|泰国.*//g'|sed -E 's/\|/\-/g'>taiguo.txt
+cat ~/MyWork/ip2region/data/ip.merge.txt|grep 日本|sed -E 's/\|日本.*//g'|sed -E 's/\|/\-/g'>reben.txt
+cat ~/MyWork/ip2region/data/ip.merge.txt|grep 美国|sed -E 's/\|美国.*//g'|sed -E 's/\|/\-/g'>meiguo.txt
+
+masscan -iL taiguo.txt --max-rate 30000 -p0-65535 -oX taiguo.xml
+masscan -iL meiguo.txt --max-rate 10000 -p0-65535 -oX meiguo.xml
+```

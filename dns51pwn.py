@@ -22,7 +22,7 @@ g_szDomain = ["51pwn.com",'exploit-poc.com']
 
 
 g_szEsHost = 'https://www.51pwn.com'
-if os.environ['DEBUG']:
+if 'DEBUG' in os.environ and 'True' == os.environ['DEBUG']:
     g_szEsHost = 'http://127.0.0.1:1443'
 
 # @pysnooper.snoop()
