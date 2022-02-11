@@ -28,7 +28,7 @@ token=61%2C262%2C216%2C218%2C209&ip=202.96.85.155&aiWenType=区县级数据
 
 """
 
-ip='111.45.3.185'
+ip='40.119.146.107'
 port='443'
 try:    
     x509 = reqs.OpenSSL.crypto.load_certificate(
