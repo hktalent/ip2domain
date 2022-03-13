@@ -91,3 +91,13 @@ http://ip.soshoulu.com/shengshiip.aspx
 
 
 
+#### 比masscan更快的扫描器
+```
+alias rustscan1='docker run -it --rm --name rustscan rustscan/rustscan:latest rustscan'
+brew install rustscan
+```
+#### 找许多免费代理
+```
+proxybroker find --types HTTP HTTPS --lvl High --countries CN --strict -l 1000 --outfile ./proxiesCN.txt
+proxybroker find --types HTTP HTTPS --lvl High --countries US --strict -l 1000 --outfile ./proxies.txt
+```
